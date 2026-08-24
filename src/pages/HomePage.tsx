@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { IconContrast, IconDownload, IconZap } from '../components/icons'
 import { ObservationCard, ScoreBadge } from '../components/ObservationCard'
+import { useSyncState } from '../lib/cloudSync'
 import { backupJsonNow } from '../lib/export'
 import { observationTitle } from '../lib/markdown'
 import { averageScore, isScored, totalScore } from '../lib/score'
@@ -10,9 +11,35 @@ import { toast } from '../lib/toast'
 import { seedExamples } from '../seed'
 import { useObservations } from '../store'
 
+function syncChipLabel(status: string, lastOkAt: string | null): string {
+  switch (status) {
+    case 'ok': {
+      let time = ''
+      try {
+        time = lastOkAt
+          ? new Date(lastOkAt).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })
+          : ''
+      } catch {
+        time = ''
+      }
+      return time ? `Drive ✓ ${time}` : 'Drive ✓'
+    }
+    case 'syncing':
+    case 'pending':
+      return 'Drive : envoi…'
+    case 'offline':
+      return 'Drive : en attente de réseau'
+    case 'error':
+      return 'Drive : erreur, nouvel essai prévu'
+    default:
+      return 'Drive connecté'
+  }
+}
+
 export function HomePage() {
   const { observations, loaded } = useObservations()
   const salonMode = useSalonMode()
+  const sync = useSyncState()
   const sorted = useMemo(
     () => [...observations].sort((a, b) => b.updatedAt.localeCompare(a.updatedAt)),
     [observations],
@@ -70,10 +97,25 @@ export function HomePage() {
           </button>
         </div>
       </header>
-      {salonMode ? (
-        <p className="mt-2 inline-block rounded-full bg-clay-100 px-3 py-1 text-xs font-semibold text-clay-800">
-          Mode salon actif
-        </p>
+      {salonMode || sync.status !== 'off' ? (
+        <div className="mt-2 flex flex-wrap gap-1.5">
+          {salonMode ? (
+            <span className="rounded-full bg-clay-100 px-3 py-1 text-xs font-semibold text-clay-800">
+              Mode salon actif
+            </span>
+          ) : null}
+          {sync.status !== 'off' ? (
+            <span
+              className={`rounded-full px-3 py-1 text-xs font-semibold ${
+                sync.status === 'error'
+                  ? 'bg-red-100 text-red-800'
+                  : 'bg-clay-100 text-clay-800'
+              }`}
+            >
+              {syncChipLabel(sync.status, sync.lastOkAt)}
+            </span>
+          ) : null}
+        </div>
       ) : null}
 
       <div className="mt-4 grid grid-cols-3 gap-2">

@@ -2,6 +2,7 @@
 // (largeur max 1600 px, qualité JPEG 0,75) pour ne pas saturer l'espace.
 import { dbPutPhoto } from '../db'
 import type { PhotoRecord, PhotoType } from '../types'
+import { queueSync } from './cloudSync'
 
 const MAX_SIZE = 1600
 const JPEG_QUALITY = 0.75
@@ -47,5 +48,6 @@ export async function addPhotoFromFile(
     blob,
   }
   await dbPutPhoto(record)
+  queueSync()
   return record
 }

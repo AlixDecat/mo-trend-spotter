@@ -64,6 +64,13 @@ Sur iPhone : Safari → Partager → « Sur l'écran d'accueil ».
 ## Données et sauvegardes
 
 - Les données vivent uniquement dans le navigateur du téléphone (IndexedDB).
+- **Sauvegarde automatique Google Drive** : dans Export, coller l'URL d'un script
+  Google Apps Script personnel (déployé en application web, accès « Tout le monde »).
+  Après chaque fiche, l'app envoie les données et les nouvelles photos dans le dossier
+  « M&O Spotter - Sauvegardes » du Drive (avec un instantané par jour). Sans réseau,
+  l'envoi part au retour de la connexion. L'URL peut aussi être fournie en ouvrant
+  l'app avec `?sync=<URL du script>` (configuration en un clic). L'URL n'est jamais
+  dans le code : elle reste dans le navigateur de l'appareil.
 - **Chaque soir de salon : Export → Sauvegarde JSON ou ZIP complet** (le ZIP inclut les photos et se réimporte sur un autre appareil).
 - « Protéger le stockage » demande au navigateur de ne jamais purger les données automatiquement.
 - Effacer les données de navigation du site supprime les observations : exporter d'abord.

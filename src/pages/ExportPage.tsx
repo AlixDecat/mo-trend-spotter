@@ -1,5 +1,13 @@
 import { useEffect, useState } from 'react'
 import {
+  getSyncUrl,
+  isValidSyncUrl,
+  setSyncUrl,
+  syncNow,
+  testSync,
+  useSyncState,
+} from '../lib/cloudSync'
+import {
   buildCsv,
   buildFullZipBlob,
   buildJsonBlob,
@@ -15,6 +23,88 @@ import {
 import { toast } from '../lib/toast'
 import { seedExamples } from '../seed'
 import { useObservations } from '../store'
+
+const SYNC_LABELS: Record<string, string> = {
+  off: 'Non configurée',
+  idle: 'Configurée',
+  pending: 'Envoi prévu…',
+  syncing: 'Envoi en cours…',
+  ok: 'À jour',
+  error: 'Erreur, nouvel essai automatique',
+  offline: 'En attente de réseau',
+}
+
+function fmtTime(iso: string | null): string {
+  if (!iso) return ''
+  try {
+    return new Date(iso).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })
+  } catch {
+    return ''
+  }
+}
+
+function SyncSection() {
+  const sync = useSyncState()
+  const [urlDraft, setUrlDraft] = useState(getSyncUrl())
+  const [busy, setBusy] = useState(false)
+
+  function save() {
+    const url = urlDraft.trim()
+    if (url && !isValidSyncUrl(url)) {
+      toast('URL invalide : elle doit commencer par https://script.google.com/', 'err')
+      return
+    }
+    setSyncUrl(url)
+    toast(url ? 'Sauvegarde Google Drive connectée' : 'Sauvegarde Google Drive désactivée')
+  }
+
+  async function runTest() {
+    setBusy(true)
+    try {
+      const ok = await testSync()
+      if (ok) {
+        toast('Connexion au Drive réussie')
+        void syncNow()
+      } else {
+        toast('Le script Google ne répond pas', 'err')
+      }
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  const label = SYNC_LABELS[sync.status] ?? sync.status
+  const time = fmtTime(sync.lastOkAt)
+
+  return (
+    <>
+      <p className="mt-6 text-base font-bold">Sauvegarde automatique Google Drive</p>
+      <p className="hint">
+        Après chaque fiche, l'app envoie les données et les nouvelles photos dans le dossier
+        « M&O Spotter - Sauvegardes » de votre Drive. Sans réseau, l'envoi part dès que la
+        connexion revient.
+      </p>
+      <p className="card mt-2 text-sm">
+        État : <span className="font-semibold">{label}</span>
+        {sync.status === 'ok' && time ? ` (${time})` : ''}
+      </p>
+      <input
+        className="input mt-2"
+        value={urlDraft}
+        placeholder="URL du script Google (https://script.google.com/…)"
+        onChange={(e) => setUrlDraft(e.target.value)}
+      />
+      <div className="mt-2 flex gap-2">
+        <button type="button" className="btn flex-1" onClick={save}>
+          Enregistrer l'URL
+        </button>
+        <button type="button" className="btn flex-1" disabled={busy || !getSyncUrl()} onClick={() => void runTest()}>
+          {busy ? 'Test…' : 'Tester'}
+        </button>
+      </div>
+    </>
+  )
+}
 
 export function ExportPage() {
   const { observations } = useObservations()
@@ -131,6 +221,8 @@ export function ExportPage() {
           shareOrDownload(`resumes-mo-${today()}.zip`, await buildMarkdownZipBlob(observations))
         }
       />
+
+      <SyncSection />
 
       <p className="mt-6 text-base font-bold">Importer une sauvegarde</p>
       <p className="hint">JSON ou ZIP. Fusion par fiche : la version la plus récente gagne.</p>

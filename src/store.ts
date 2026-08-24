@@ -70,6 +70,11 @@ function subscribe(cb: () => void): () => void {
   }
 }
 
+// Permet à d'autres modules (ex. sauvegarde Drive) de réagir aux changements.
+export function subscribeObservations(cb: () => void): () => void {
+  return subscribe(cb)
+}
+
 function getSnapshot(): Snapshot {
   return snapshot
 }

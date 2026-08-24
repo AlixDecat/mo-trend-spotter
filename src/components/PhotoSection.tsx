@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { dbDeletePhoto, dbGetPhotosFor, dbPutPhoto } from '../db'
+import { queueSync } from '../lib/cloudSync'
 import { addPhotoFromFile } from '../lib/photos'
 import { toast } from '../lib/toast'
 import type { PhotoRecord, PhotoType } from '../types'
@@ -68,6 +69,7 @@ export function PhotoSection({
   async function saveCaption(photo: PhotoRecord, caption: string) {
     await dbPutPhoto({ ...photo, caption })
     setPhotos((prev) => prev.map((p) => (p.id === photo.id ? { ...p, caption } : p)))
+    queueSync()
   }
 
   async function remove(photo: PhotoRecord) {
@@ -83,6 +85,7 @@ export function PhotoSection({
       urls.current.delete(photo.id)
     }
     setPhotos((prev) => prev.filter((p) => p.id !== photo.id))
+    queueSync()
   }
 
   const zoomed = photos.find((p) => p.id === zoomId)
