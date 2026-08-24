@@ -286,7 +286,9 @@ export function ExportPage() {
       >
         Charger 2 observations d'exemple
       </button>
-      <div className="h-6" />
+      <p className="mt-6 pb-2 text-center text-[10px] text-ink-500">
+        M&O Trend Spotter · version du {__APP_VERSION__}
+      </p>
     </div>
   )
 }

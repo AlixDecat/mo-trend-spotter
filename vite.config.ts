@@ -7,6 +7,17 @@ export default defineConfig({
   // Base relative : l'app fonctionne à la racine d'un domaine comme sous un
   // sous-chemin GitLab Pages (https://…/mo-trend-spotter/).
   base: './',
+  define: {
+    // Horodatage du build, affiché en bas de l'écran Export pour vérifier
+    // qu'un téléphone est à jour.
+    __APP_VERSION__: JSON.stringify(
+      new Intl.DateTimeFormat('fr-FR', {
+        dateStyle: 'short',
+        timeStyle: 'short',
+        timeZone: 'Europe/Paris',
+      }).format(new Date()),
+    ),
+  },
   plugins: [
     react(),
     tailwindcss(),
