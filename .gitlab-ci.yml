@@ -1,0 +1,18 @@
+# Déploiement GitLab Pages : build Vite puis publication du dossier public/
+stages:
+  - deploy
+
+pages:
+  image: node:22-alpine
+  stage: deploy
+  tags:
+    - iam-internal-projects
+  script:
+    - npm ci
+    - npm run build
+    - rm -rf public && cp -r dist public
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
