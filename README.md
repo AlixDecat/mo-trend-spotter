@@ -38,11 +38,14 @@ npm run preview    # sert le build sur http://localhost:5184
 npm run icons      # régénère les icônes PWA depuis le SVG (public/icons/)
 ```
 
-## Déploiement (GitLab Pages)
+## Déploiement
 
-Le fichier `.gitlab-ci.yml` publie automatiquement le build sur GitLab Pages à chaque
-push sur la branche par défaut. L'URL est visible dans GitLab :
-**Deploy → Pages** (« Déploiement → Pages »).
+Deux pipelines sont prêts, le build est publié à chaque push sur `main` :
+
+- **GitHub Pages** (actif) : `.github/workflows/deploy.yml` →
+  https://alixdecat.github.io/mo-trend-spotter/
+- **GitLab Pages** : `.gitlab-ci.yml` prendra le relais dès que Pages sera activé
+  sur l'instance GitLab interne (l'URL apparaîtra alors dans **Deploy → Pages**).
 
 Le build utilise une base relative (`base: './'`), l'app fonctionne donc aussi bien à la
 racine d'un domaine que sous un sous-chemin de Pages. Elle peut aussi être hébergée sur
