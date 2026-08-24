@@ -9,6 +9,7 @@ import { allObservations, ensureLoaded, subscribeObservations } from '../store'
 import { toast } from './toast'
 
 const URL_KEY = 'mo-sync-url'
+const SECRET_KEY = 'mo-sync-key'
 const LAST_KEY = 'mo-sync-last'
 const PHOTOS_KEY = 'mo-sync-photos'
 
@@ -72,6 +73,16 @@ export function setSyncUrl(url: string): void {
   if (url.trim()) queueSync()
 }
 
+// Clé de sécurité : le script rejette tout envoi qui ne la contient pas,
+// ce qui bloque les robots même s'ils découvraient l'adresse du script.
+export function getSyncKey(): string {
+  return readLS(SECRET_KEY) ?? ''
+}
+
+export function setSyncKey(key: string): void {
+  writeLS(SECRET_KEY, key.trim())
+}
+
 function syncedPhotoIds(): Set<string> {
   try {
     return new Set(JSON.parse(readLS(PHOTOS_KEY) ?? '[]') as string[])
@@ -84,12 +95,12 @@ function saveSyncedPhotoIds(ids: Set<string>): void {
   writeLS(PHOTOS_KEY, JSON.stringify([...ids]))
 }
 
-async function post(payload: unknown): Promise<void> {
+async function post(payload: Record<string, unknown>): Promise<void> {
   const url = getSyncUrl()
   const res = await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-    body: JSON.stringify(payload),
+    body: JSON.stringify({ secret: getSyncKey(), ...payload }),
   })
   if (!res.ok) throw new Error(`sync http ${res.status}`)
   // La réponse traverse une redirection Google : on la lit si possible,
@@ -192,17 +203,22 @@ export function initCloudSync(): void {
       void syncNow()
     }
   })
-  // Configuration en un clic : ouvrir l'app avec ?sync=<URL du script>
+  // Configuration en un clic : ouvrir l'app avec ?sync=<URL du script>&key=<clé>
   try {
     const params = new URLSearchParams(window.location.search)
     const url = params.get('sync')
+    const key = params.get('key')
+    if (key) setSyncKey(key)
     if (url && isValidSyncUrl(url)) {
       setSyncUrl(url)
+    }
+    if (url || key) {
       params.delete('sync')
+      params.delete('key')
       const rest = params.toString()
       const clean = window.location.pathname + (rest ? `?${rest}` : '') + window.location.hash
       window.history.replaceState(null, '', clean)
-      toast('Sauvegarde Google Drive connectée')
+      if (url && isValidSyncUrl(url)) toast('Sauvegarde Google Drive connectée')
     }
   } catch {
     // paramètre illisible : ignorer

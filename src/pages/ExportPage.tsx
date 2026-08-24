@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
 import {
+  getSyncKey,
   getSyncUrl,
   isValidSyncUrl,
+  setSyncKey,
   setSyncUrl,
   syncNow,
   testSync,
@@ -46,6 +48,7 @@ function fmtTime(iso: string | null): string {
 function SyncSection() {
   const sync = useSyncState()
   const [urlDraft, setUrlDraft] = useState(getSyncUrl())
+  const [keyDraft, setKeyDraft] = useState(getSyncKey())
   const [busy, setBusy] = useState(false)
 
   function save() {
@@ -54,6 +57,11 @@ function SyncSection() {
       toast('URL invalide : elle doit commencer par https://script.google.com/', 'err')
       return
     }
+    if (url && !keyDraft.trim()) {
+      toast('Ajoute aussi la clé de sécurité', 'err')
+      return
+    }
+    setSyncKey(keyDraft)
     setSyncUrl(url)
     toast(url ? 'Sauvegarde Google Drive connectée' : 'Sauvegarde Google Drive désactivée')
   }
@@ -93,6 +101,12 @@ function SyncSection() {
         value={urlDraft}
         placeholder="URL du script Google (https://script.google.com/…)"
         onChange={(e) => setUrlDraft(e.target.value)}
+      />
+      <input
+        className="input mt-2"
+        value={keyDraft}
+        placeholder="Clé de sécurité"
+        onChange={(e) => setKeyDraft(e.target.value)}
       />
       <div className="mt-2 flex gap-2">
         <button type="button" className="btn flex-1" onClick={save}>
