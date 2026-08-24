@@ -67,7 +67,9 @@ export function FormPage() {
   }
 
   return (
-    <div className="pb-28 pt-3">
+    <div className="pb-28">
+      {/* En-tête et menu des étapes collants : toujours visibles pendant le défilement */}
+      <div className="sticky top-0 z-30 -mx-4 border-b border-line bg-paper/95 px-4 pb-2 pt-3 backdrop-blur">
       <header className="flex items-center gap-1">
         <button
           type="button"
@@ -106,6 +108,7 @@ export function FormPage() {
             {label}
           </button>
         ))}
+      </div>
       </div>
 
       {step === 0 ? (
