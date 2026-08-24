@@ -28,17 +28,15 @@ import {
   TEXTURE_OPTIONS,
 } from '../types'
 
+// 5 étapes de collecte : le menu tient entièrement à l'écran sur mobile.
 const STEPS = [
-  'Identification',
-  'Signal',
-  'Design',
-  'Usage',
-  'Collection',
-  'Merchandising',
-  'Photos',
-  'Score',
-  'Transposition',
+  'Stand & identification',
+  'Signal & design',
+  'Usage & collection',
+  'Merchandising & photos',
+  'Score & décision',
 ]
+const STEP_CHIPS = ['Stand', 'Design', 'Usage', 'Photos', 'Score']
 
 export function FormPage() {
   const { id } = useParams()
@@ -87,20 +85,25 @@ export function FormPage() {
               ? 'Enregistrement…'
               : saveState === 'saved'
                 ? 'Enregistré ✓'
-                : 'Nouvelle fiche'}
+                : id
+                  ? 'Fiche enregistrée'
+                  : 'Nouvelle fiche'}
           </p>
         </div>
       </header>
 
-      <div className="no-scrollbar -mx-4 mt-2 flex gap-1.5 overflow-x-auto px-4 pb-1">
-        {STEPS.map((label, i) => (
+      <div className="mt-2 grid grid-cols-5 gap-1">
+        {STEP_CHIPS.map((label, i) => (
           <button
             key={label}
             type="button"
-            className={`chip shrink-0 ${i === step ? 'chip-on' : ''}`}
+            className={`rounded-xl border px-1 py-1.5 text-xs font-semibold leading-tight ${
+              i === step ? 'border-clay-600 bg-clay-600 text-white' : 'border-line bg-white text-ink-500'
+            }`}
             onClick={() => setStep(i)}
           >
-            {i + 1}. {label}
+            <span className="block text-[10px] opacity-70">{i + 1}</span>
+            {label}
           </button>
         ))}
       </div>
@@ -179,6 +182,7 @@ export function FormPage() {
 
       {step === 1 ? (
         <section>
+          <p className="h2">Le signal</p>
           <label className="label">Le signal en une phrase *</label>
           <textarea
             className="input"
@@ -191,7 +195,7 @@ export function FormPage() {
         </section>
       ) : null}
 
-      {step === 2 ? (
+      {step === 1 ? (
         <section>
           <p className="h2">Palette</p>
           <label className="label">Couleurs dominantes (3 à 5)</label>
@@ -268,8 +272,9 @@ export function FormPage() {
         </section>
       ) : null}
 
-      {step === 3 ? (
+      {step === 2 ? (
         <section>
+          <p className="h2">Usage dedans/dehors</p>
           <label className="label">Scènes d'usage</label>
           <ChipMulti
             options={SCENE_OPTIONS}
@@ -287,8 +292,9 @@ export function FormPage() {
         </section>
       ) : null}
 
-      {step === 4 ? (
+      {step === 2 ? (
         <section>
+          <p className="h2">Collection</p>
           <ToggleRow
             label="Série coordonnée visible"
             checked={obs.collectionSystem.coordinatedSeries}
@@ -310,8 +316,9 @@ export function FormPage() {
         </section>
       ) : null}
 
-      {step === 5 ? (
+      {step === 3 ? (
         <section>
+          <p className="h2">Merchandising</p>
           <ToggleRow
             label="Corner lisible en 3 secondes"
             checked={obs.merchandisability.cornerIn3Seconds}
@@ -333,8 +340,9 @@ export function FormPage() {
         </section>
       ) : null}
 
-      {step === 6 ? (
+      {step === 3 ? (
         <section>
+          <p className="h2">Photos</p>
           {PHOTO_TYPES.map((t) => (
             <PhotoSection
               key={t.value}
@@ -348,8 +356,9 @@ export function FormPage() {
         </section>
       ) : null}
 
-      {step === 7 ? (
+      {step === 4 ? (
         <section>
+          <p className="h2">Score</p>
           {SCORE_FIELDS.map((f) => (
             <ScoreRow
               key={f.key}
@@ -366,8 +375,9 @@ export function FormPage() {
         </section>
       ) : null}
 
-      {step === 8 ? (
+      {step === 4 ? (
         <section>
+          <p className="h2">Transposition</p>
           <label className="label">Garder</label>
           <textarea
             className="input"
