@@ -78,6 +78,14 @@ export const TEXTURE_OPTIONS: Option[] = [
   { value: 'irregularite_controlee', label: 'Irrégularité contrôlée' },
 ]
 
+export const FABRICATION_PROCESS_OPTIONS: Option[] = [
+  { value: 'presse', label: 'Presse' },
+  { value: 'moule', label: 'Moule' },
+  { value: 'tournage', label: 'Tournage' },
+  { value: 'corde', label: 'Corde' },
+  { value: 'calibrage', label: 'Calibrage' },
+]
+
 export const HARD_TO_COPY_OPTIONS: Option[] = [
   { value: 'geste', label: 'Geste' },
   { value: 'superposition', label: 'Superposition' },
@@ -203,6 +211,8 @@ export interface Observation {
   materialTexture: {
     aspect: string[]
     texture: string[]
+    // Optionnel : les fiches créées avant l'ajout du champ ne l'ont pas.
+    fabricationProcess?: string[]
     hardToCopyWhy: string[]
     notes: string
   }
@@ -290,7 +300,7 @@ export function emptyObservation(): Observation {
     perceivedPositioning: '',
     signalOneLiner: '',
     palette: { dominantColors: [], accentColor: '', contrastLevel: '' },
-    materialTexture: { aspect: [], texture: [], hardToCopyWhy: [], notes: '' },
+    materialTexture: { aspect: [], texture: [], fabricationProcess: [], hardToCopyWhy: [], notes: '' },
     formsVolumes: { archetype: [], distinctiveDetails: '', proportions: '' },
     indoorOutdoorUse: { scenes: [], credibilityNotes: '' },
     collectionSystem: { coordinatedSeries: false, compositionRule: '', universe3Words: '' },

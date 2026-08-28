@@ -8,6 +8,7 @@ import {
   CONTRAST_OPTIONS,
   DECISION_OPTIONS,
   EXHIBITOR_OPTIONS,
+  FABRICATION_PROCESS_OPTIONS,
   HARD_TO_COPY_OPTIONS,
   POSITIONING_OPTIONS,
   PROPORTION_OPTIONS,
@@ -83,6 +84,10 @@ export function observationToMarkdown(o: Observation): string {
   section += line('Contraste', labelFor(CONTRAST_OPTIONS, o.palette.contrastLevel))
   section += line('Aspect', labelsFor(ASPECT_OPTIONS, o.materialTexture.aspect).join(', '))
   section += line('Texture', labelsFor(TEXTURE_OPTIONS, o.materialTexture.texture).join(', '))
+  section += line(
+    'Procédé de fabrication',
+    labelsFor(FABRICATION_PROCESS_OPTIONS, o.materialTexture.fabricationProcess ?? []).join(', '),
+  )
   section += line(
     'Difficile à copier',
     labelsFor(HARD_TO_COPY_OPTIONS, o.materialTexture.hardToCopyWhy).join(', '),

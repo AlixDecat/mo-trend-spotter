@@ -17,6 +17,7 @@ import {
   CONTRAST_OPTIONS,
   DECISION_OPTIONS,
   EXHIBITOR_OPTIONS,
+  FABRICATION_PROCESS_OPTIONS,
   HARD_TO_COPY_OPTIONS,
   PHOTO_TYPES,
   POSITIONING_OPTIONS,
@@ -208,6 +209,10 @@ export function DetailPage() {
           { label: 'Contraste', value: labelFor(CONTRAST_OPTIONS, obs.palette.contrastLevel) },
           { label: 'Aspect', value: labelsFor(ASPECT_OPTIONS, obs.materialTexture.aspect).join(', ') },
           { label: 'Texture', value: labelsFor(TEXTURE_OPTIONS, obs.materialTexture.texture).join(', ') },
+          {
+            label: 'Procédé de fabrication',
+            value: labelsFor(FABRICATION_PROCESS_OPTIONS, obs.materialTexture.fabricationProcess ?? []).join(', '),
+          },
           {
             label: 'Difficile à copier',
             value: labelsFor(HARD_TO_COPY_OPTIONS, obs.materialTexture.hardToCopyWhy).join(', '),

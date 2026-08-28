@@ -15,6 +15,7 @@ import {
   CONTRAST_OPTIONS,
   DECISION_OPTIONS,
   EXHIBITOR_OPTIONS,
+  FABRICATION_PROCESS_OPTIONS,
   HARD_TO_COPY_OPTIONS,
   POSITIONING_OPTIONS,
   PROPORTION_OPTIONS,
@@ -83,7 +84,7 @@ export function buildCsv(list: Observation[]): string {
   const headers = [
     'Date', 'Salon', 'Hall', 'Zone', 'Stand', 'Marque', 'Pays', 'Type exposant', 'Catégorie',
     'Positionnement', 'Signal', 'Couleurs dominantes', 'Couleur accent', 'Contraste', 'Aspect',
-    'Texture', 'Difficile à copier', 'Notes matière', 'Archétypes', 'Détails distinctifs',
+    'Texture', 'Procédé de fabrication', 'Difficile à copier', 'Notes matière', 'Archétypes', 'Détails distinctifs',
     'Proportions', 'Scènes', 'Crédibilité dedans/dehors', 'Série coordonnée',
     'Règle de composition', 'Univers en 3 mots', 'Corner lisible 3 s', 'Supports vus',
     'Starter pack', 'Score fit', 'Score signature', 'Score collectionnable', 'Score premium',
@@ -102,6 +103,7 @@ export function buildCsv(list: Observation[]): string {
       labelFor(CONTRAST_OPTIONS, o.palette.contrastLevel),
       labelsFor(ASPECT_OPTIONS, o.materialTexture.aspect).join(' | '),
       labelsFor(TEXTURE_OPTIONS, o.materialTexture.texture).join(' | '),
+      labelsFor(FABRICATION_PROCESS_OPTIONS, o.materialTexture.fabricationProcess ?? []).join(' | '),
       labelsFor(HARD_TO_COPY_OPTIONS, o.materialTexture.hardToCopyWhy).join(' | '),
       o.materialTexture.notes,
       labelsFor(ARCHETYPE_OPTIONS, o.formsVolumes.archetype).join(' | '),
@@ -268,6 +270,7 @@ export function normalizeObservation(raw: Record<string, unknown>): Observation 
   base.materialTexture = {
     aspect: asStringArray(material.aspect),
     texture: asStringArray(material.texture),
+    fabricationProcess: asStringArray(material.fabricationProcess),
     hardToCopyWhy: asStringArray(material.hardToCopyWhy),
     notes: asString(material.notes),
   }

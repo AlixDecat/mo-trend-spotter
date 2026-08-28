@@ -18,6 +18,7 @@ import {
   CONTRAST_OPTIONS,
   DECISION_OPTIONS,
   EXHIBITOR_OPTIONS,
+  FABRICATION_PROCESS_OPTIONS,
   HARD_TO_COPY_OPTIONS,
   PHOTO_TYPES,
   POSITIONING_OPTIONS,
@@ -236,6 +237,12 @@ export function FormPage() {
             options={TEXTURE_OPTIONS}
             value={obs.materialTexture.texture}
             onChange={(v) => patchSection('materialTexture', { texture: v })}
+          />
+          <label className="label">Procédé de fabrication</label>
+          <ChipMulti
+            options={FABRICATION_PROCESS_OPTIONS}
+            value={obs.materialTexture.fabricationProcess ?? []}
+            onChange={(v) => patchSection('materialTexture', { fabricationProcess: v })}
           />
           <label className="label">Difficile à copier parce que…</label>
           <ChipMulti

@@ -41,6 +41,7 @@ function demoTerraNova(): Observation {
   o.materialTexture = {
     aspect: ['mat', 'engobe', 'brut'],
     texture: ['chamottee', 'irregularite_controlee'],
+    fabricationProcess: ['tournage', 'corde'],
     hardToCopyWhy: ['geste', 'recette'],
     notes: "L'engobe laisse apparaître la chamotte, toucher minéral très doux.",
   }
@@ -101,6 +102,7 @@ function demoStudioLumen(): Observation {
   o.materialTexture = {
     aspect: ['mat', 'mineral_pierre'],
     texture: ['lisse'],
+    fabricationProcess: ['moule'],
     hardToCopyWhy: ['superposition'],
     notes: '',
   }
