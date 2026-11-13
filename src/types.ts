@@ -15,12 +15,15 @@ export const EXHIBITOR_OPTIONS: Option[] = [
   { value: 'artisan', label: 'Artisan' },
   { value: 'manufacturier', label: 'Manufacturier' },
   { value: 'studio', label: 'Studio' },
+  { value: 'distributeur', label: 'Distributeur' },
+  { value: 'collectif', label: 'Collectif / pavillon' },
 ]
 
 export const CATEGORY_OPTIONS: Option[] = [
   { value: 'contenants', label: 'Contenants' },
   { value: 'objet_deco', label: 'Objet déco' },
   { value: 'arts_table', label: 'Arts de la table' },
+  { value: 'luminaire', label: 'Luminaire' },
   { value: 'mobilier', label: 'Mobilier' },
   { value: 'outdoor_living', label: 'Outdoor living' },
   { value: 'surface_matiere', label: 'Surface / matière' },
@@ -29,6 +32,7 @@ export const CATEGORY_OPTIONS: Option[] = [
 
 export const POSITIONING_OPTIONS: Option[] = [
   { value: 'entree_gamme', label: 'Entrée de gamme' },
+  { value: 'milieu_gamme', label: 'Milieu de gamme' },
   { value: 'premium_accessible', label: 'Premium accessible' },
   { value: 'premium', label: 'Premium' },
   { value: 'luxe', label: 'Luxe' },
@@ -41,29 +45,41 @@ export const CONTRAST_OPTIONS: Option[] = [
 ]
 
 export const COLOR_OPTIONS: ColorOption[] = [
-  { value: 'terracotta', label: 'Terracotta', hex: '#C1654B' },
-  { value: 'argile_rose', label: 'Argile rosée', hex: '#D8A08A' },
-  { value: 'ocre', label: 'Ocre', hex: '#C68A3B' },
-  { value: 'sable', label: 'Sable', hex: '#D9C7A7' },
-  { value: 'ecru', label: 'Écru', hex: '#EFE6D8' },
-  { value: 'blanc_casse', label: 'Blanc cassé', hex: '#F5F1E8' },
+  // Classées par famille : clairs, terres chaudes, verts et bleus, foncés, métal.
   { value: 'craie', label: 'Craie', hex: '#FDFDFB' },
-  { value: 'noir_charbon', label: 'Noir charbon', hex: '#2B2B2B' },
-  { value: 'gris_mineral', label: 'Gris minéral', hex: '#9A968E' },
-  { value: 'brun_terre', label: 'Brun terre', hex: '#7A5540' },
-  { value: 'vert_olive', label: 'Vert olive', hex: '#7A7B4F' },
-  { value: 'vert_sauge', label: 'Vert sauge', hex: '#A8B39A' },
-  { value: 'bleu_profond', label: 'Bleu profond', hex: '#33506E' },
-  { value: 'celadon', label: 'Céladon', hex: '#9BB7B4' },
-  { value: 'jaune_paille', label: 'Jaune paille', hex: '#E3C36B' },
+  { value: 'blanc_casse', label: 'Blanc cassé', hex: '#F5F1E8' },
+  { value: 'ecru', label: 'Écru', hex: '#EFE6D8' },
+  { value: 'sable', label: 'Sable', hex: '#D9C7A7' },
+  { value: 'argile_rose', label: 'Argile rosée', hex: '#D8A08A' },
+  { value: 'terracotta', label: 'Terracotta', hex: '#C1654B' },
   { value: 'rouge_brique', label: 'Rouge brique', hex: '#9E4A38' },
+  { value: 'bordeaux', label: 'Bordeaux / lie-de-vin', hex: '#6E2F3A' },
+  { value: 'jaune_paille', label: 'Jaune paille', hex: '#E3C36B' },
+  { value: 'ocre', label: 'Ocre', hex: '#C68A3B' },
+  { value: 'caramel', label: 'Caramel', hex: '#B07A4C' },
+  { value: 'brun_terre', label: 'Brun terre', hex: '#7A5540' },
+  { value: 'chocolat', label: 'Chocolat', hex: '#4A3328' },
+  { value: 'vert_sauge', label: 'Vert sauge', hex: '#A8B39A' },
+  { value: 'vert_olive', label: 'Vert olive', hex: '#7A7B4F' },
+  { value: 'vert_profond', label: 'Vert profond', hex: '#34493B' },
+  { value: 'celadon', label: 'Céladon', hex: '#9BB7B4' },
+  { value: 'bleu_pale', label: 'Bleu pâle', hex: '#AFC3D3' },
+  { value: 'bleu_profond', label: 'Bleu profond', hex: '#33506E' },
+  { value: 'gris_mineral', label: 'Gris minéral', hex: '#9A968E' },
+  { value: 'noir_charbon', label: 'Noir charbon', hex: '#2B2B2B' },
+  { value: 'laiton_dore', label: 'Laiton / doré', hex: '#B89B5E' },
 ]
 
 export const ASPECT_OPTIONS: Option[] = [
+  // Brillance, puis effets d'émail, puis surfaces brutes.
   { value: 'mat', label: 'Mat' },
   { value: 'satine', label: 'Satiné' },
   { value: 'brillant', label: 'Brillant' },
+  { value: 'lustre_metallise', label: 'Lustré / métallisé' },
   { value: 'craquele', label: 'Craquelé' },
+  { value: 'reactif_coulures', label: 'Réactif / coulures' },
+  { value: 'mouchete', label: 'Moucheté' },
+  { value: 'nuance_degrade', label: 'Nuancé / dégradé' },
   { value: 'engobe', label: 'Engobe' },
   { value: 'brut', label: 'Brut' },
   { value: 'sable', label: 'Sablé' },
@@ -73,36 +89,56 @@ export const ASPECT_OPTIONS: Option[] = [
 export const TEXTURE_OPTIONS: Option[] = [
   { value: 'lisse', label: 'Lisse' },
   { value: 'strie', label: 'Strié' },
+  { value: 'cannele_cotele', label: 'Cannelé / côtelé' },
+  { value: 'facette', label: 'Facetté' },
+  { value: 'grave_incise', label: 'Gravé / incisé' },
+  { value: 'relief_estampe', label: 'Relief / estampé' },
+  { value: 'ajoure', label: 'Ajouré' },
   { value: 'granuleuse', label: 'Granuleuse' },
   { value: 'chamottee', label: 'Chamottée' },
   { value: 'irregularite_controlee', label: 'Irrégularité contrôlée' },
 ]
 
 export const FABRICATION_PROCESS_OPTIONS: Option[] = [
-  { value: 'presse', label: 'Presse' },
-  { value: 'moule', label: 'Moule' },
+  // Fait main d'abord, puis procédés outillés / industriels.
   { value: 'tournage', label: 'Tournage' },
   { value: 'corde', label: 'Corde' },
+  { value: 'plaque', label: 'Plaque' },
+  { value: 'modelage', label: 'Modelage' },
+  { value: 'moule', label: 'Moule' },
+  { value: 'presse', label: 'Presse' },
   { value: 'calibrage', label: 'Calibrage' },
+  { value: 'extrusion', label: 'Extrusion' },
+  { value: 'impression_3d', label: 'Impression 3D' },
 ]
 
 export const HARD_TO_COPY_OPTIONS: Option[] = [
   { value: 'geste', label: 'Geste' },
+  { value: 'decor_main', label: 'Décor main' },
   { value: 'superposition', label: 'Superposition' },
   { value: 'recette', label: 'Recette' },
   { value: 'cuisson', label: 'Cuisson' },
   { value: 'patine', label: 'Patine' },
+  { value: 'grand_format', label: 'Grand format' },
+  { value: 'terre_locale', label: 'Terre / matière locale' },
   { value: 'autre', label: 'Autre' },
 ]
 
 export const ARCHETYPE_OPTIONS: Option[] = [
+  // Volumes géométriques, typologies d'objets, puis caractères transverses.
   { value: 'cylindre', label: 'Cylindre' },
+  { value: 'sphere', label: 'Sphère' },
+  { value: 'ovoide', label: 'Ovoïde' },
+  { value: 'conique', label: 'Conique' },
+  { value: 'rectiligne', label: 'Rectiligne' },
   { value: 'coupe', label: 'Coupe' },
+  { value: 'vasque', label: 'Vasque' },
   { value: 'jarre', label: 'Jarre' },
   { value: 'amphore', label: 'Amphore' },
-  { value: 'ovoide', label: 'Ovoïde' },
-  { value: 'rectiligne', label: 'Rectiligne' },
+  { value: 'bouteille', label: 'Bouteille / soliflore' },
   { value: 'totem', label: 'Totem' },
+  { value: 'organique', label: 'Organique / asymétrique' },
+  { value: 'sur_pied', label: 'Sur pied' },
   { value: 'empilable', label: 'Empilable' },
 ]
 
@@ -112,26 +148,52 @@ export const PROPORTION_OPTIONS: Option[] = [
   { value: 'haut_elance', label: 'Haut et élancé' },
 ]
 
-export const SCENE_OPTIONS: Option[] = [
-  { value: 'salon', label: 'Salon' },
-  { value: 'entree', label: 'Entrée' },
-  { value: 'terrasse', label: 'Terrasse' },
-  { value: 'patio', label: 'Patio' },
-  { value: 'balcon', label: 'Balcon' },
-  { value: 'hotel_restaurant', label: 'Hôtel / restaurant' },
+export type SceneZone = 'dedans' | 'entre_deux' | 'dehors' | 'pro'
+
+export interface SceneOption extends Option {
+  zone: SceneZone
+}
+
+export const SCENE_ZONE_LABELS: Record<SceneZone, string> = {
+  dedans: 'Dedans',
+  entre_deux: 'Entre-deux',
+  dehors: 'Dehors',
+  pro: 'Pro (CHR)',
+}
+
+export const SCENE_OPTIONS: SceneOption[] = [
+  { value: 'salon', label: 'Salon', zone: 'dedans' },
+  { value: 'salle_a_manger', label: 'Salle à manger', zone: 'dedans' },
+  { value: 'cuisine', label: 'Cuisine', zone: 'dedans' },
+  { value: 'salle_de_bain', label: 'Salle de bain', zone: 'dedans' },
+  { value: 'entree', label: 'Entrée', zone: 'dedans' },
+  { value: 'veranda', label: "Véranda / jardin d'hiver", zone: 'entre_deux' },
+  { value: 'terrasse', label: 'Terrasse', zone: 'dehors' },
+  { value: 'balcon', label: 'Balcon', zone: 'dehors' },
+  { value: 'patio', label: 'Patio', zone: 'dehors' },
+  { value: 'jardin', label: 'Jardin', zone: 'dehors' },
+  { value: 'bord_piscine', label: 'Bord de piscine', zone: 'dehors' },
+  { value: 'hotel_restaurant', label: 'Hôtel / restaurant', zone: 'pro' },
 ]
 
 export const COMPOSITION_OPTIONS: Option[] = [
-  { value: 'trio_tailles', label: 'Trio de tailles' },
   { value: 'duo', label: 'Duo' },
+  { value: 'trio_tailles', label: 'Trio de tailles' },
+  { value: 'gigogne', label: 'Gigogne / emboîtable' },
   { value: 'set_mixte', label: 'Set mixte' },
+  { value: 'declinaison_couleurs', label: 'Déclinaison de couleurs' },
   { value: 'repetition_rythme', label: 'Répétition / rythme' },
+  { value: 'piece_heros', label: 'Pièce héros + satellites' },
 ]
 
 export const SUPPORT_OPTIONS: Option[] = [
   { value: 'story_card', label: 'Story card' },
   { value: 'set_compose', label: 'Set composé' },
   { value: 'podium', label: 'Podium' },
+  { value: 'mur_etagere', label: 'Mur / étagère' },
+  { value: 'table_dressee', label: 'Table dressée' },
+  { value: 'mise_en_scene_vegetale', label: 'Mise en scène végétale' },
+  { value: 'nuancier', label: 'Nuancier / échantillons' },
   { value: 'bundle', label: 'Bundle' },
   { value: 'recommandation_assortiment', label: "Recommandation d'assortiment" },
 ]

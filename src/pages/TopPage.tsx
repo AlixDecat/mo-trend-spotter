@@ -1,10 +1,8 @@
 import { useMemo, useState } from 'react'
 import { ObservationCard } from '../components/ObservationCard'
-import { totalScore } from '../lib/score'
+import { MIN_SCORE_FILTERS, totalScore } from '../lib/score'
 import { useObservations } from '../store'
 import { CATEGORY_OPTIONS, DECISION_OPTIONS, labelFor } from '../types'
-
-const MIN_SCORES = [0, 10, 15, 18, 20]
 
 export function TopPage() {
   const { observations, loaded } = useObservations()
@@ -79,7 +77,7 @@ export function TopPage() {
       </div>
 
       <div className="no-scrollbar -mx-4 mt-2 flex gap-1.5 overflow-x-auto px-4">
-        {MIN_SCORES.map((m) => (
+        {MIN_SCORE_FILTERS.map((m) => (
           <button
             key={m}
             type="button"

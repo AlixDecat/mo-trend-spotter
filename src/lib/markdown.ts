@@ -104,10 +104,8 @@ export function observationToMarkdown(o: Observation): string {
   if (section) md += `## Formes et usage\n${section}\n`
 
   section = ''
-  if (o.collectionSystem.coordinatedSeries) {
-    const rule = labelFor(COMPOSITION_OPTIONS, o.collectionSystem.compositionRule)
-    section += `- Série coordonnée : oui${rule ? ` (${rule})` : ''}\n`
-  }
+  if (o.collectionSystem.coordinatedSeries) section += '- Série coordonnée : oui\n'
+  section += line('Règle de composition', labelFor(COMPOSITION_OPTIONS, o.collectionSystem.compositionRule))
   section += line('Univers en 3 mots', o.collectionSystem.universe3Words)
   if (o.merchandisability.cornerIn3Seconds) section += '- Corner lisible en 3 secondes : oui\n'
   section += line('Supports vus', labelsFor(SUPPORT_OPTIONS, o.merchandisability.supportsSeen).join(', '))

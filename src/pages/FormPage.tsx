@@ -3,10 +3,10 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { ChipMulti, ChipSingle } from '../components/ChipSelect'
 import { IconBack } from '../components/icons'
 import { PhotoSection } from '../components/PhotoSection'
-import { ScoreRow } from '../components/ScoreRow'
+import { ScoreRow, ScoredHint } from '../components/ScoreRow'
 import { DECISION_TONES, Segment } from '../components/Segment'
 import { ToggleRow } from '../components/ToggleRow'
-import { totalScore } from '../lib/score'
+import { scoredCriteria, totalScore } from '../lib/score'
 import { useObservationDraft } from '../lib/useObservationDraft'
 import { useObservations } from '../store'
 import {
@@ -379,7 +379,10 @@ export function FormPage() {
             />
           ))}
           <div className="card mt-5 flex items-center justify-between">
-            <span className="font-bold">Score total</span>
+            <span className="font-bold">
+              Score total
+              <ScoredHint count={scoredCriteria(obs)} />
+            </span>
             <span className="text-xl font-extrabold text-clay-600">{totalScore(obs)}/25</span>
           </div>
         </section>

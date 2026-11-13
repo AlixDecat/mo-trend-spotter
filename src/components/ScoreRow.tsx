@@ -35,3 +35,9 @@ export function ScoreRow({
     </div>
   )
 }
+
+// Sous le « Score total » : signale une notation incomplète.
+export function ScoredHint({ count }: { count: number }) {
+  if (count === 0 || count === 5) return null
+  return <span className="block text-xs font-normal text-ink-500">{count}/5 critères notés</span>
+}

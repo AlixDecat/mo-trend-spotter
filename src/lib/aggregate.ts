@@ -8,11 +8,13 @@ import {
   COLOR_OPTIONS,
   HARD_TO_COPY_OPTIONS,
   SCENE_OPTIONS,
+  SCENE_ZONE_LABELS,
   SUPPORT_OPTIONS,
   TEXTURE_OPTIONS,
   labelFor,
   type Direction,
   type Observation,
+  type SceneZone,
 } from '../types'
 
 function topValues(arrays: string[][], count: number): string[] {
@@ -32,7 +34,12 @@ function uniq(values: string[]): string[] {
   return [...new Set(values.map((v) => v.trim()).filter(Boolean))]
 }
 
-const OUTDOOR = ['terrasse', 'patio', 'balcon']
+// Zone d'une scène ; une scène saisie librement (hors liste) compte « dedans ».
+function sceneZone(value: string): SceneZone {
+  return SCENE_OPTIONS.find((o) => o.value === value)?.zone ?? 'dedans'
+}
+
+const ZONE_ORDER: SceneZone[] = ['dedans', 'entre_deux', 'dehors', 'pro']
 
 export function buildDirectionDraft(sources: Observation[]): Direction {
   const now = new Date().toISOString()
@@ -54,9 +61,10 @@ export function buildDirectionDraft(sources: Observation[]): Direction {
   const forms = topValues(sorted.map((o) => o.formsVolumes.archetype), 3).map((v) =>
     labelFor(ARCHETYPE_OPTIONS, v),
   )
-  const scenes = topValues(sorted.map((o) => o.indoorOutdoorUse.scenes), 5)
-  const outdoorScenes = scenes.filter((s) => OUTDOOR.includes(s)).map((v) => labelFor(SCENE_OPTIONS, v))
-  const indoorScenes = scenes.filter((s) => !OUTDOOR.includes(s)).map((v) => labelFor(SCENE_OPTIONS, v))
+  const scenes = topValues(sorted.map((o) => o.indoorOutdoorUse.scenes), 6)
+  const scenesIn = (zone: SceneZone) =>
+    scenes.filter((s) => sceneZone(s) === zone).map((v) => labelFor(SCENE_OPTIONS, v))
+  const outdoorScenes = scenesIn('dehors')
   const supports = topValues(sorted.map((o) => o.merchandisability.supportsSeen), 3).map((v) =>
     labelFor(SUPPORT_OPTIONS, v),
   )
@@ -69,6 +77,7 @@ export function buildDirectionDraft(sources: Observation[]): Direction {
   const bestSignal = sorted.map((o) => o.signalOneLiner).find(Boolean) ?? ''
   const cornerCount = sorted.filter((o) => o.merchandisability.cornerIn3Seconds).length
   const trioCount = sorted.filter((o) => o.collectionSystem.compositionRule === 'trio_tailles').length
+  const nestingCount = sorted.filter((o) => o.collectionSystem.compositionRule === 'gigogne').length
 
   return {
     id: crypto.randomUUID(),
@@ -84,13 +93,18 @@ export function buildDirectionDraft(sources: Observation[]): Direction {
       colors.length > 0 ? `3. Palette : ${colors.join(', ')}` : '3. Palette : à définir',
     ].join('\n'),
     systemForms: forms.join(' / '),
-    systemSizes: trioCount > 0 ? 'Trio de tailles : S / M / L' : '3 tailles : S / M / L (à préciser)',
+    systemSizes:
+      nestingCount > trioCount
+        ? 'Gigogne : S / M / L emboîtables'
+        : trioCount > 0
+          ? 'Trio de tailles : S / M / L'
+          : '3 tailles : S / M / L (à préciser)',
     systemFinishes: aspects.slice(0, 2).join(' / '),
     systemBundles: packs.length > 0 ? packs.slice(0, 2).join(' · ') : 'Duo dedans/dehors à composer',
-    scenes: [
-      indoorScenes.length > 0 ? `Dedans : ${indoorScenes.join(', ')}` : '',
-      outdoorScenes.length > 0 ? `Dehors : ${outdoorScenes.join(', ')}` : '',
-    ]
+    scenes: ZONE_ORDER.map((zone) => {
+      const list = scenesIn(zone)
+      return list.length > 0 ? `${SCENE_ZONE_LABELS[zone]} : ${list.join(', ')}` : ''
+    })
       .filter(Boolean)
       .join('\n'),
     merchCorner: `${cornerCount}/${sorted.length} stands lisibles en 3 secondes${

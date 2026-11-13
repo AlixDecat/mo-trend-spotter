@@ -3,9 +3,9 @@ import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { IconBack } from '../components/icons'
 import { PhotoSection } from '../components/PhotoSection'
-import { ScoreRow } from '../components/ScoreRow'
+import { ScoreRow, ScoredHint } from '../components/ScoreRow'
 import { DECISION_TONES, Segment } from '../components/Segment'
-import { totalScore } from '../lib/score'
+import { scoredCriteria, totalScore } from '../lib/score'
 import { toast } from '../lib/toast'
 import { useObservationDraft } from '../lib/useObservationDraft'
 import { useObservations } from '../store'
@@ -92,7 +92,10 @@ export function QuickEntryPage() {
         />
       ))}
       <div className="card mt-4 flex items-center justify-between py-3">
-        <span className="font-bold">Score total</span>
+        <span className="font-bold">
+          Score total
+          <ScoredHint count={scoredCriteria(obs)} />
+        </span>
         <span className="text-xl font-extrabold text-clay-600">{totalScore(obs)}/25</span>
       </div>
 

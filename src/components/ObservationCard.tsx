@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom'
-import { totalScore } from '../lib/score'
+import { SCORE_STRONG, SCORE_WATCH, totalScore } from '../lib/score'
 import { CATEGORY_OPTIONS, DECISION_OPTIONS, labelFor, type Observation } from '../types'
 
 export function ScoreBadge({ score }: { score: number }) {
   const cls =
-    score >= 18
+    score >= SCORE_STRONG
       ? 'bg-keep text-white'
-      : score >= 13
+      : score >= SCORE_WATCH
         ? 'bg-watch text-white'
         : score > 0
           ? 'bg-line text-ink'

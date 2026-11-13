@@ -4,12 +4,10 @@ import { ScoreBadge } from '../components/ObservationCard'
 import { dbGetAllDirections, dbPutDirection } from '../db'
 import { buildDirectionDraft } from '../lib/aggregate'
 import { observationTitle } from '../lib/markdown'
-import { totalScore } from '../lib/score'
+import { MIN_SCORE_FILTERS, totalScore } from '../lib/score'
 import { toast } from '../lib/toast'
 import { useObservations } from '../store'
 import type { Direction } from '../types'
-
-const MIN_SCORES = [0, 10, 15, 18, 20]
 
 function fmtDate(iso: string): string {
   try {
@@ -69,7 +67,7 @@ export function DirectionListPage() {
           avec les couleurs, matières et formes qui reviennent le plus.
         </p>
         <div className="no-scrollbar -mx-4 mt-3 flex gap-1.5 overflow-x-auto px-4">
-          {MIN_SCORES.map((m) => (
+          {MIN_SCORE_FILTERS.map((m) => (
             <button
               key={m}
               type="button"

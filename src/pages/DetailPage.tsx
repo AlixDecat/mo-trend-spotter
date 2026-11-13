@@ -235,15 +235,10 @@ export function DetailPage() {
       <Section
         title="Collection et merchandising"
         rows={[
+          { label: 'Série coordonnée', value: obs.collectionSystem.coordinatedSeries ? 'oui' : '' },
           {
-            label: 'Série coordonnée',
-            value: obs.collectionSystem.coordinatedSeries
-              ? `oui${
-                  obs.collectionSystem.compositionRule
-                    ? ` (${labelFor(COMPOSITION_OPTIONS, obs.collectionSystem.compositionRule)})`
-                    : ''
-                }`
-              : '',
+            label: 'Règle de composition',
+            value: labelFor(COMPOSITION_OPTIONS, obs.collectionSystem.compositionRule),
           },
           { label: 'Univers en 3 mots', value: obs.collectionSystem.universe3Words },
           {

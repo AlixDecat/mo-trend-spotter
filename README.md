@@ -11,7 +11,7 @@ du téléphone (IndexedDB). D'où l'importance des sauvegardes (bouton Export).
 ## Fonctionnalités
 
 - **Saisie rapide** (1 écran) : hall, stand, marque, signal, 5 scores, photo ambiance, famille, décision
-- **Observation complète** en 9 étapes : identification, signal, design (palette, matière, formes), usage dedans/dehors, collection, merchandising, photos (5 types), score /25, transposition
+- **Observation complète** en 5 étapes : stand et identification, signal et design (palette, matière, procédé, formes), usage et collection, merchandising et photos (5 types), score /25, transposition et décision
 - Enregistrement automatique en continu (aucun bouton « sauvegarder » à penser)
 - **Top scores** avec filtres : hall, catégorie, famille de signaux, décision, score minimum
 - **Direction de collection** : sélection de 3 à 10 observations, pré-remplissage automatique (couleurs, matières, formes, scènes, merchandising les plus fréquents), export Markdown et impression PDF
